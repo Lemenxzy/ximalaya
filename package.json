@@ -16,23 +16,21 @@
   "license": "MIT",
   "config": {
     "forge": {
+      "electronPackagerConfig": {
+        "icon": "src/images/icon/icon.icns"
+      },
       "make_targets": {
-        "win32": [
-          "squirrel"
-        ],
         "darwin": [
-          "zip"
-        ],
-        "linux": [
-          "deb",
-          "rpm"
+          "dmg"
         ]
       },
-      "electronPackagerConfig": {
-        "packageManager": "yarn"
-      },
       "electronWinstallerConfig": {
-        "name": "ximalaya"
+        "name": "喜马拉雅FN"
+      },
+      "electronInstallerDMG": {
+        "name": "喜马拉雅FM",
+        "icon": "src/images/icon/icon.icns",
+        "overwrite": true
       },
       "electronInstallerDebian": {},
       "electronInstallerRedhat": {},

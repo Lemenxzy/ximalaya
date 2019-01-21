@@ -1,5 +1,8 @@
 import { app, BrowserWindow } from 'electron';
 
+let willQuitApp = false;
+
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
   app.quit();
@@ -33,6 +36,16 @@ const createWindow = () => {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+  mainWindow.on('close', (e) => {
+    if (willQuitApp) {
+      /* the user tried to quit the app */
+      mainWindow = null;
+    } else {
+      /* the user only tried to close the window */
+      e.preventDefault();
+      mainWindow.hide();
+    }
+  });
 };
 
 // This method will be called when Electron has finished
@@ -49,12 +62,17 @@ app.on('window-all-closed', () => {
   }
 });
 
+app.on('before-quit', () => {
+  willQuitApp = true;
+});
+
 app.on('activate', () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
-    createWindow();
-  }
+  // if (mainWindow === null) {
+  //   createWindow();
+  // }
+  mainWindow.show();
 });
 
 // In this file you can include the rest of your app's specific main process
