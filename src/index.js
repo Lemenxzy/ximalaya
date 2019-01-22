@@ -1,4 +1,7 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, Menu } from 'electron';
+import appMenu from './menu.js';
+
+const path = require('path');
 
 let willQuitApp = false;
 
@@ -13,21 +16,28 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 let mainWindow;
 
 const createWindow = () => {
+  Menu.setApplicationMenu(appMenu);
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 1100,
-    height: 660,
+    height: 800,
     minWidth: 1100,
-    minHeight: 660,
+    minHeight: 800,
     backgroundColor: '#2e2c29',
     darkTheme: true,
+    webPreferences: {
+      preload: path.resolve(__dirname, 'browser.js'),
+      nodeIntegration: true,
+      plugins: true,
+    },
+    icon: path.join(__dirname, 'src/images/icon/icon.icns'),
   });
 
   // and load the index.html of the app.
   mainWindow.loadURL('https://www.ximalaya.com');
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
@@ -45,6 +55,12 @@ const createWindow = () => {
       e.preventDefault();
       mainWindow.hide();
     }
+  });
+
+  mainWindow.webContents.on('new-window', (event, url) => {
+    // event.preventDefault();
+    // mainWindow.loadURL(url);
+    console.log(111, url);
   });
 };
 
