@@ -77,3 +77,11 @@ nav:before{
     height: 25px;
     background: #000;
 }
+
+.login-pop-tab-content .login-pop__form > .login-pop__form-item:last-child{
+    display: none;!important;
+}
+
+.qrcode-login__reg{
+    display: none;!important;
+}

@@ -33,7 +33,6 @@ const showLoading = () => {
   document.body.appendChild(div);
 };
 
-
 document.addEventListener('DOMContentLoaded', () => {
   showLoading();
   elementReady('#rootFooter').then(() => {

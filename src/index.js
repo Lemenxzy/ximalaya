@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu } from 'electron';
+import { app, BrowserWindow, Menu, shell } from 'electron';
 import appMenu from './menu.js';
 
 const path = require('path');
@@ -25,6 +25,7 @@ const createWindow = () => {
     minHeight: 800,
     backgroundColor: '#2e2c29',
     darkTheme: true,
+    show: false,
     webPreferences: {
       preload: path.resolve(__dirname, 'browser.js'),
       nodeIntegration: true,
@@ -58,9 +59,20 @@ const createWindow = () => {
   });
 
   mainWindow.webContents.on('new-window', (event, url) => {
-    // event.preventDefault();
-    // mainWindow.loadURL(url);
-    console.log(111, url);
+    event.preventDefault();
+    if (url.indexOf('toLoginCallback') > 0) {
+      const win = new BrowserWindow({
+        webPreferences: {
+          preload: path.resolve(__dirname, 'jq.js'),
+        },
+      });
+      win.on('close', () => {
+        mainWindow.reload();
+      });
+      win.loadURL(url);
+    } else {
+      shell.openExternal(url);
+    }
   });
 };
 
