@@ -4,7 +4,9 @@ const path = require('path');
 
 const hiddenLoading = () => {
   const loading = document.getElementById('loadingWrap');
-  document.body.removeChild(loading);
+  if (loading) {
+    document.body.removeChild(loading);
+  }
 };
 
 const addStyle = () => {
